@@ -1,11 +1,12 @@
 import { Button, Form, Input, Typography } from 'antd';
 import { useRegister } from '../hooks/useRegister';
 import { REGISTER_FORM_TEXTS as TEXTS } from '../constants/register.constants';
+import { FormMessageHandler } from './FormMessageHandler';
 
 const { Title } = Typography;
 
 export const RegisterForm = () => {
-  const { mutate, isPending } = useRegister();
+  const { mutate, isPending, isSuccess, isError } = useRegister();
   const [form] = Form.useForm();
 
   const handleSubmit = (values: { name: string; email: string; password: string }) => {
@@ -31,6 +32,12 @@ export const RegisterForm = () => {
           </Button>
         </Form.Item>
       </Form>
+      <FormMessageHandler
+        isSuccess={isSuccess}
+        isError={isError}
+        successText={TEXTS.successMessage}
+        errorText={TEXTS.errorMessage}
+      />
     </>
   );
 };
