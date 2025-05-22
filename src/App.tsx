@@ -6,7 +6,9 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RegisterPage />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+        <RegisterPage />
+      </div>
     </QueryClientProvider>
   );
 }
