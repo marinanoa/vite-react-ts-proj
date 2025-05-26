@@ -4,6 +4,12 @@ export const REGISTER_FORM_TEXTS = {
   successMessage: 'User successfully registered',
   errorMessage: 'Something went wrong',
   namePlaceholder: 'Name',
+  nameRequired: 'Please enter your name',
   emailPlaceholder: 'Email',
+  emailRequired: 'Please enter you email',
+  emailValid: 'Please enter a valid email',
   passwordPlaceholder: 'Password',
+  passwordRequired: 'Please enter a password',
+  passwordValid: 'Password is too short',
+  invalidCredentials: 'Credentials are not valid',
 };
