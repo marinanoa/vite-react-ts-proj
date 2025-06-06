@@ -1,22 +1,25 @@
-import { Button, Form, Input, message, Typography } from 'antd';
+import { Button, Form, Input, Typography } from 'antd';
 import { useRegister } from '../hooks/useRegister';
 import { REGISTER_FORM_TEXTS as TEXTS } from '../constants/register.constants';
 import { parseRegisterError } from '../../lib/error.mapper';
+import { useMessage } from '../../infrastructure/providers/message/useMessage';
 
 const { Title } = Typography;
 
 export const RegisterForm = () => {
   const { mutate, isPending } = useRegister();
+  const { success, error } = useMessage();
+
   const [form] = Form.useForm();
 
   const handleSubmit = (values: { name: string; email: string; password: string }) => {
     mutate(values, {
       onSuccess: () => {
-        message.success(TEXTS.successMessage);
+        success(TEXTS.successMessage);
         form.resetFields();
       },
       onError: (err) => {
-        message.error(parseRegisterError(err));
+        error(parseRegisterError(err));
       },
     });
   };
