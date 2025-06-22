@@ -1,29 +1,52 @@
 import { Button, Form, Input, Typography } from 'antd';
 import { useRegister } from '../hooks/useRegister';
 import { REGISTER_FORM_TEXTS as TEXTS } from '../constants/register.constants';
-import { FormMessageHandler } from './FormMessageHandler';
+import { parseRegisterError } from '../../lib/error.mapper';
+import { useMessage } from '../../infrastructure/providers/message/useMessage';
 
 const { Title } = Typography;
 
 export const RegisterForm = () => {
-  const { mutate, isPending, isSuccess, isError } = useRegister();
+  const { mutate, isPending } = useRegister();
+  const { success, error } = useMessage();
+
   const [form] = Form.useForm();
 
   const handleSubmit = (values: { name: string; email: string; password: string }) => {
-    mutate(values);
+    mutate(values, {
+      onSuccess: () => {
+        success(TEXTS.successMessage);
+        form.resetFields();
+      },
+      onError: (err) => {
+        error(parseRegisterError(err));
+      },
+    });
   };
 
   return (
     <>
       <Title level={3}>{TEXTS.title}</Title>
       <Form layout="vertical" form={form} onFinish={handleSubmit}>
-        <Form.Item name="name" rules={[{ required: true }]}>
+        <Form.Item name="name" rules={[{ required: true, message: TEXTS.nameRequired }]}>
           <Input placeholder={TEXTS.namePlaceholder} />
         </Form.Item>
-        <Form.Item name="email" rules={[{ required: true }, { type: 'email' }]}>
+        <Form.Item
+          name="email"
+          rules={[
+            { required: true, message: TEXTS.emailRequired },
+            { type: 'email', message: TEXTS.emailValid },
+          ]}
+        >
           <Input placeholder={TEXTS.emailPlaceholder} />
         </Form.Item>
-        <Form.Item name="password" rules={[{ required: true }]}>
+        <Form.Item
+          name="password"
+          rules={[
+            { required: true, message: TEXTS.passwordRequired },
+            { min: 6, message: TEXTS.passwordValid },
+          ]}
+        >
           <Input.Password placeholder={TEXTS.passwordPlaceholder} />
         </Form.Item>
         <Form.Item>
@@ -32,12 +55,6 @@ export const RegisterForm = () => {
           </Button>
         </Form.Item>
       </Form>
-      <FormMessageHandler
-        isSuccess={isSuccess}
-        isError={isError}
-        successText={TEXTS.successMessage}
-        errorText={TEXTS.errorMessage}
-      />
     </>
   );
 };
