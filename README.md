@@ -5,7 +5,7 @@ It is based in React with Vite and implements a clean architecture.
 
 The application works with the backend application of the project [NodeResetServerCleanArch](https://github.com/marinanoa/NodeRestServerCleanArch).
 
-:construction: This project is under development. It misses tests, and other things. There is only one hook added to call the endpoint in the backend that register users.
+:construction: This project is under development. It misses tests, and other things. There is only one hook added to call the endpoint in the backend that registers users.
 
 ## How to run
 
